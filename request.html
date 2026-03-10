@@ -75,7 +75,7 @@
 
       <div class="field-group">
         <label for="req-org">Organization / program</label>
-        <input type="text" id="req-org" placeholder="e.g., Global NTD Alliance">
+        <input type="text" id="req-org" placeholder="e.g., Global Cheese Alliance">
       </div>
 
       <div class="field-group">
@@ -96,22 +96,22 @@
       <p class="form-section-desc">Select the type of engagement that fits best. Not sure? We'll help you decide.</p>
 
       <div class="card-grid-4 mb-3" id="engagement-cards">
-        <div class="card selectable" data-engagement="quick" onclick="selectEngagement(this)">
+        <div class="card selectable" data-engagement="quick" role="button" tabindex="0" aria-pressed="false" onclick="selectEngagement(this)" onkeydown="handleEngagementKey(event, this)">
           <div class="card-icon card-icon-amber" style="width:32px;height:32px;font-size:1rem;margin-bottom:0.6rem;">&#9656;</div>
           <div class="card-title" style="font-size:0.95rem;">Quick Guidance</div>
           <div class="card-desc" style="font-size:0.8rem;">Brief written response. You have a clear question.</div>
         </div>
-        <div class="card selectable" data-engagement="full" onclick="selectEngagement(this)">
+        <div class="card selectable" data-engagement="full" role="button" tabindex="0" aria-pressed="false" onclick="selectEngagement(this)" onkeydown="handleEngagementKey(event, this)">
           <div class="card-icon card-icon-navy" style="width:32px;height:32px;font-size:1rem;margin-bottom:0.6rem;">&#9670;</div>
           <div class="card-title" style="font-size:0.95rem;">Full Consultation</div>
           <div class="card-desc" style="font-size:0.8rem;">Multi-phase process. Complex situation, multiple stakeholders.</div>
         </div>
-        <div class="card selectable" data-engagement="meeting" onclick="selectEngagement(this)">
+        <div class="card selectable" data-engagement="meeting" role="button" tabindex="0" aria-pressed="false" onclick="selectEngagement(this)" onkeydown="handleEngagementKey(event, this)">
           <div class="card-icon card-icon-navy" style="width:32px;height:32px;font-size:1rem;margin-bottom:0.6rem;">&#9673;</div>
           <div class="card-title" style="font-size:0.95rem;">Meeting Facilitation</div>
           <div class="card-desc" style="font-size:0.8rem;">Structured discussion support with your team.</div>
         </div>
-        <div class="card selectable" data-engagement="review" onclick="selectEngagement(this)">
+        <div class="card selectable" data-engagement="review" role="button" tabindex="0" aria-pressed="false" onclick="selectEngagement(this)" onkeydown="handleEngagementKey(event, this)">
           <div class="card-icon card-icon-amber" style="width:32px;height:32px;font-size:1rem;margin-bottom:0.6rem;">&#9998;</div>
           <div class="card-title" style="font-size:0.95rem;">Document Review</div>
           <div class="card-desc" style="font-size:0.8rem;">Ethical review of an existing draft or policy.</div>
@@ -135,17 +135,17 @@
       <p class="form-section-desc">Help us prioritize.</p>
 
       <div style="display: flex; gap: 0.75rem; margin-bottom: 1.25rem; flex-wrap: wrap;" id="urgency-cards">
-        <div class="card selectable" data-urgency="urgent" onclick="selectUrgency(this)" style="flex: 1; min-width: 160px; text-align: center;">
+        <div class="card selectable" data-urgency="urgent" role="button" tabindex="0" aria-pressed="false" onclick="selectUrgency(this)" onkeydown="handleUrgencyKey(event, this)" style="flex: 1; min-width: 160px; text-align: center;">
           <div style="font-size: 1.2rem; margin-bottom: 0.3rem; color: var(--error);">&#9888;</div>
           <div class="card-title" style="font-size: 0.95rem;">Urgent</div>
           <div class="card-desc" style="font-size: 0.78rem;">Decision needed within days</div>
         </div>
-        <div class="card selectable" data-urgency="standard" onclick="selectUrgency(this)" style="flex: 1; min-width: 160px; text-align: center;">
+        <div class="card selectable" data-urgency="standard" role="button" tabindex="0" aria-pressed="false" onclick="selectUrgency(this)" onkeydown="handleUrgencyKey(event, this)" style="flex: 1; min-width: 160px; text-align: center;">
           <div style="font-size: 1.2rem; margin-bottom: 0.3rem; color: var(--amber);">&#9679;</div>
           <div class="card-title" style="font-size: 0.95rem;">Standard</div>
           <div class="card-desc" style="font-size: 0.78rem;">Within a few weeks</div>
         </div>
-        <div class="card selectable" data-urgency="flexible" onclick="selectUrgency(this)" style="flex: 1; min-width: 160px; text-align: center;">
+        <div class="card selectable" data-urgency="flexible" role="button" tabindex="0" aria-pressed="false" onclick="selectUrgency(this)" onkeydown="handleUrgencyKey(event, this)" style="flex: 1; min-width: 160px; text-align: center;">
           <div style="font-size: 1.2rem; margin-bottom: 0.3rem; color: var(--success);">&#9711;</div>
           <div class="card-title" style="font-size: 0.95rem;">Flexible</div>
           <div class="card-desc" style="font-size: 0.78rem;">No hard deadline</div>

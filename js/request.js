@@ -6,18 +6,40 @@ var selectedEngagement = '';
 var selectedUrgency = '';
 
 /* ── Card Selectors ────────────────────────── */
-function selectEngagement(el) {
-  var cards = document.querySelectorAll('#engagement-cards .card');
-  for (var i = 0; i < cards.length; i++) cards[i].classList.remove('selected');
+function setPressedState(selector, el) {
+  var cards = document.querySelectorAll(selector);
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove('selected');
+    cards[i].setAttribute('aria-pressed', 'false');
+  }
   el.classList.add('selected');
+  el.setAttribute('aria-pressed', 'true');
+}
+
+function selectEngagement(el) {
+  setPressedState('#engagement-cards .card', el);
   selectedEngagement = el.getAttribute('data-engagement');
 }
 
 function selectUrgency(el) {
-  var cards = document.querySelectorAll('#urgency-cards .card');
-  for (var i = 0; i < cards.length; i++) cards[i].classList.remove('selected');
-  el.classList.add('selected');
+  setPressedState('#urgency-cards .card', el);
   selectedUrgency = el.getAttribute('data-urgency');
+}
+
+function selectFromKeyboard(event, el, selectFn) {
+  var key = event.key || event.code;
+  if (key === 'Enter' || key === ' ' || key === 'Spacebar') {
+    event.preventDefault();
+    selectFn(el);
+  }
+}
+
+function handleEngagementKey(event, el) {
+  selectFromKeyboard(event, el, selectEngagement);
+}
+
+function handleUrgencyKey(event, el) {
+  selectFromKeyboard(event, el, selectUrgency);
 }
 
 /* ── Validation ────────────────────────────── */
@@ -69,34 +91,38 @@ function submitRequest() {
     referenceNumber:  generateRefNumber()
   };
 
-  saveRequest(data);
+  if (!saveRequest(data)) {
+    msgEl.textContent = 'Unable to save your request in this browser session. Please check storage/privacy settings and try again.';
+    msgEl.style.display = 'block';
+    msgEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
   window.location.href = 'review.html';
 }
 
 /* ── Example Data (Jane & John Doe) ────────── */
 function loadExample() {
-  document.getElementById('req-situation').value = 'We are a multi-country artisanal cheese research consortium (5 countries, 12+ planned publications) and need to develop a consortium-wide authorship policy. The core tension is between alphabetical ordering (the standard in our field) and contribution-based credit. Our Alpine-based co-PIs did most of the analytical work, but consortium norms prioritize LMIC first/last authorship. Country cheesemaking leads are peers and we have a very difficult time prioritizing one over another. The cave-aging modelers contributed significantly but their work spans all country papers. We need a policy framework before papers start getting written.';
-
-  document.getElementById('req-why-now').value = 'Publication planning is starting for the first wave of papers. Several country teams are drafting manuscripts now. Without a policy, authorship disputes will be handled ad hoc, which risks damaging relationships across the consortium. Our funder (Wellcome Trust) has equity requirements we need to address.';
-
-  document.getElementById('req-name').value = 'Jane Doe, Co-PI, Cheese Consortium Project';
-  document.getElementById('req-email').value = 'j.doe@globalcheesealliance.org';
-  document.getElementById('req-org').value = 'Global Artisanal Cheese Alliance';
-  document.getElementById('req-people').value = 'John Doe (Co-PI, lead cave-aging modeler), 5 country cheesemaking leads, ~12 named co-investigators, Dr. A. Whitfield (ethics advisor), country milk collection teams, Wellcome Trust program officer';
-  document.getElementById('req-affected').value = 'Junior researchers and milk collectors across 5 country teams who contributed significantly but may not meet traditional authorship criteria. Community dairy workers involved in data collection. Future consortium members who will inherit whatever policy we set.';
+  var data = getExampleRequestData();
+  document.getElementById('req-situation').value = data.situation;
+  document.getElementById('req-why-now').value = data.whyNow;
+  document.getElementById('req-name').value = data.name;
+  document.getElementById('req-email').value = data.email;
+  document.getElementById('req-org').value = data.organization;
+  document.getElementById('req-people').value = data.otherPeople;
+  document.getElementById('req-affected').value = data.affectedNotInvolved;
 
   // Select Full Consultation
   var fullCard = document.querySelector('[data-engagement="full"]');
   if (fullCard) selectEngagement(fullCard);
 
-  document.getElementById('req-documents').value = 'Internal consortium MOU (has authorship clause), BRIDGE Consortium authorship policy (comparator we found), draft publication plan listing all 12 papers with tentative author lists';
-  document.getElementById('req-policies').value = 'ICMJE authorship criteria, CRediT contributor taxonomy, Wellcome Trust open access and equity requirements, Parker et al. (2022) fair partnerships framework';
+  document.getElementById('req-documents').value = data.documents;
+  document.getElementById('req-policies').value = data.existingPolicies;
 
   // Select Standard urgency
   var stdCard = document.querySelector('[data-urgency="standard"]');
   if (stdCard) selectUrgency(stdCard);
 
-  document.getElementById('req-deadline').value = '2026-04-15';
+  document.getElementById('req-deadline').value = data.decisionDate;
 
   // Toggle buttons
   document.getElementById('btn-example').style.display = 'none';
@@ -108,7 +134,10 @@ function clearForm() {
   for (var i = 0; i < inputs.length; i++) inputs[i].value = '';
 
   var cards = document.querySelectorAll('.card.selectable');
-  for (var i = 0; i < cards.length; i++) cards[i].classList.remove('selected');
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove('selected');
+    cards[i].setAttribute('aria-pressed', 'false');
+  }
   selectedEngagement = '';
   selectedUrgency = '';
 

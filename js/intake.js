@@ -34,8 +34,17 @@ function renderStepper() {
     ind.appendChild(E('span', 'step-label', STEPS[i]));
 
     if (visited.has(stepNum)) {
+      ind.setAttribute('role', 'button');
+      ind.setAttribute('tabindex', '0');
       (function(s) {
         ind.addEventListener('click', function() { goToStep(s); });
+        ind.addEventListener('keydown', function(event) {
+          var key = event.key || event.code;
+          if (key === 'Enter' || key === ' ' || key === 'Spacebar') {
+            event.preventDefault();
+            goToStep(s);
+          }
+        });
       })(stepNum);
     }
     wrap.appendChild(ind);
@@ -75,18 +84,40 @@ function nextStep() { goToStep(currentStep + 1); }
 function prevStep() { goToStep(currentStep - 1); }
 
 /* ── Selectors ─────────────────────────────── */
-function selectUrgency(el) {
-  var options = document.querySelectorAll('.urgency-option');
-  for (var i = 0; i < options.length; i++) options[i].classList.remove('selected');
+function setPressedState(selector, el) {
+  var options = document.querySelectorAll(selector);
+  for (var i = 0; i < options.length; i++) {
+    options[i].classList.remove('selected');
+    options[i].setAttribute('aria-pressed', 'false');
+  }
   el.classList.add('selected');
+  el.setAttribute('aria-pressed', 'true');
+}
+
+function selectUrgency(el) {
+  setPressedState('.urgency-option', el);
   selectedUrgency = el.getAttribute('data-urgency');
 }
 
 function selectEngagement(el) {
-  var cards = document.querySelectorAll('#engagement-cards .card-i');
-  for (var i = 0; i < cards.length; i++) cards[i].classList.remove('selected');
-  el.classList.add('selected');
+  setPressedState('#engagement-cards .card-i', el);
   selectedEngagement = el.getAttribute('data-engagement');
+}
+
+function selectFromKeyboard(event, el, selectFn) {
+  var key = event.key || event.code;
+  if (key === 'Enter' || key === ' ' || key === 'Spacebar') {
+    event.preventDefault();
+    selectFn(el);
+  }
+}
+
+function handleUrgencyKey(event, el) {
+  selectFromKeyboard(event, el, selectUrgency);
+}
+
+function handleEngagementKey(event, el) {
+  selectFromKeyboard(event, el, selectEngagement);
 }
 
 /* ── Dynamic Rows ──────────────────────────── */
@@ -443,10 +474,10 @@ function loadExample() {
   setVal('stated-request', '"There are a lot of things to balance and consider. We are planning to develop a consortium authorship policy and the \'best practice\' we have seen so far is listing names in alphabetical order despite levels of involvement in the work itself."');
   setVal('why-now', 'Publication planning starting for 12+ papers across 5 countries. Need authorship policy before papers get written.');
   setVal('primary-name', 'Jane Doe, Co-PI');
-  setVal('primary-email', 'j.doe@globalntdalliance.org');
+  setVal('primary-email', 'j.doe@globalcheesealliance.org');
   setVal('decision-maker', 'Jane Doe + John Doe');
-  setVal('other-stakeholders', '5 country PIs, modelers, data teams, Dr. A. Whitfield (ethics advisor)');
-  setVal('case-id', '2026-03_NTD_Consortium_Authorship');
+  setVal('other-stakeholders', '5 country cheesemaking leads, cave-aging modelers, data teams, Dr. A. Whitfield (ethics advisor)');
+  setVal('case-id', '2026-03_Cheese_Consortium_Authorship');
 
   // Step 2
   setChecked('diag-meta', true);
@@ -458,7 +489,7 @@ function loadExample() {
   setChecked('diag-downselect', true);
   setVal('diag-downselect-notes', '1. Alphabetical (standard)\n2. Contribution-based ordering\n3. Joint first/senior authorship\n4. Portfolio approach (rotate leads)\n5. Working group authorship');
   setChecked('diag-perspective', true);
-  setVal('diag-perspective-notes', 'HIC co-PIs, 5 country PIs, modelers, country data teams, Wellcome Trust, Global NTD Alliance leadership');
+  setVal('diag-perspective-notes', 'Alpine co-PIs, 5 country cheesemaking leads, cave-aging modelers, country milk collection teams, Wellcome Trust, Global Artisanal Cheese Alliance leadership');
   setChecked('diag-learning', true);
   setVal('diag-learning-notes', '1. What did country teams contribute beyond data collection?\n2. What are Wellcome Trust expectations on LMIC authorship?\n3. How did BRIDGE Consortium handle their supplement?');
 
@@ -522,10 +553,16 @@ function clearForm() {
   var checks = document.querySelectorAll('input[type="checkbox"]');
   for (var i = 0; i < checks.length; i++) checks[i].checked = false;
   var urgOpts = document.querySelectorAll('.urgency-option');
-  for (var i = 0; i < urgOpts.length; i++) urgOpts[i].classList.remove('selected');
+  for (var i = 0; i < urgOpts.length; i++) {
+    urgOpts[i].classList.remove('selected');
+    urgOpts[i].setAttribute('aria-pressed', 'false');
+  }
   selectedUrgency = '';
   var engCards = document.querySelectorAll('#engagement-cards .card-i');
-  for (var i = 0; i < engCards.length; i++) engCards[i].classList.remove('selected');
+  for (var i = 0; i < engCards.length; i++) {
+    engCards[i].classList.remove('selected');
+    engCards[i].setAttribute('aria-pressed', 'false');
+  }
   selectedEngagement = '';
   wasPreFilled = false;
 

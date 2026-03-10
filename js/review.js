@@ -363,47 +363,19 @@ function renderTriage(data, topics, results) {
   var engName = E('div', '', suggested.type);
   engName.style.fontFamily = 'var(--font-heading)';
   engName.style.fontSize = '1.15rem';
-  engName.style.marginBottom = '0.4rem';
+  engName.style.marginBottom = '0.5rem';
   engEl.appendChild(engName);
 
-  var confBar = E('div', 'confidence-bar');
-  var confFill = E('div', 'confidence-fill confidence-fill-high');
-  confFill.style.width = '0%';
-  confBar.appendChild(confFill);
-  engEl.appendChild(confBar);
-
-  var confLabel = E('div', 'text-xs text-muted mt-1', suggested.confidence + '% confidence');
-  engEl.appendChild(confLabel);
-
-  var rationale = E('div', 'text-small text-light mt-2', suggested.rationale);
+  var rationale = E('div', 'text-small text-light', suggested.rationale);
   rationale.style.lineHeight = '1.5';
   engEl.appendChild(rationale);
 
-  // Animate confidence bar
-  setTimeout(function() { confFill.style.width = suggested.confidence + '%'; }, 100);
-
   document.getElementById('sidebar-triage').style.display = '';
 
-  // Complexity
+  // Things to note
   var compEl = document.getElementById('triage-complexity');
   compEl.textContent = '';
   var complexity = assessComplexity(data, topics, results);
-
-  var compLevel = E('div', 'flex items-center gap-1 mb-2');
-  var compDots = '';
-  for (var i = 0; i < 3; i++) {
-    var dot = E('div', '');
-    dot.style.width = '12px';
-    dot.style.height = '12px';
-    dot.style.borderRadius = '50%';
-    dot.style.background = i < complexity.level ? 'var(--amber)' : 'var(--border-light)';
-    compLevel.appendChild(dot);
-  }
-  var compLabel = E('span', 'text-small', ' ' + complexity.label);
-  compLabel.style.fontWeight = '600';
-  compLabel.style.marginLeft = '0.3rem';
-  compLevel.appendChild(compLabel);
-  compEl.appendChild(compLevel);
 
   for (var i = 0; i < complexity.reasons.length; i++) {
     var reason = E('div', 'text-small text-light');
@@ -432,9 +404,9 @@ function renderTriage(data, topics, results) {
   var nextEl = document.getElementById('triage-next');
   nextEl.textContent = '';
   var steps = [
-    'Request received and preliminary context surfaced.',
-    'A consultant will review these materials and contact you within 2 business days.',
-    'Initial scoping conversation to confirm engagement type and scope.'
+    'We\'ve received your request and pulled together some initial context.',
+    'A consultant will review this and reach out within 2 business days.',
+    'We\'ll set up a call to talk through next steps.'
   ];
   for (var i = 0; i < steps.length; i++) {
     var step = E('div', 'flex gap-1 mb-2');
@@ -475,7 +447,7 @@ function suggestEngagement(data, topics, results) {
     return {
       type: 'Full Consultation',
       confidence: 85,
-      rationale: 'Multiple stakeholders with competing interests, several applicable frameworks, and complexity indicators suggest a structured multi-phase engagement.'
+      rationale: 'Multiple stakeholders with competing interests across several applicable frameworks. A structured multi-phase engagement would give this the attention it needs.'
     };
   }
   if (signals.clientRequested === 'quick') {
@@ -483,19 +455,19 @@ function suggestEngagement(data, topics, results) {
       type: 'Quick Guidance',
       confidence: signals.manyTopics ? 55 : 78,
       rationale: signals.manyTopics
-        ? 'Client requested quick guidance, but the number of issues flagged may warrant a fuller engagement. Discuss in scoping call.'
-        : 'Clear question with existing precedent. A focused written response should address this.'
+        ? 'You asked for quick guidance, but a few things came up that might need more attention. We can talk through it.'
+        : 'Clear question with existing precedent. A focused written response should cover this.'
     };
   }
   if (signals.clientRequested === 'meeting') {
-    return { type: 'Meeting Facilitation', confidence: 72, rationale: 'Client requests facilitated discussion. Review materials suggest structured dialogue would benefit from a prepared framework.' };
+    return { type: 'Meeting Facilitation', confidence: 72, rationale: 'You want to talk this through with your team. We can come prepared with a framework to structure the conversation.' };
   }
   if (signals.clientRequested === 'review') {
-    return { type: 'Document Review', confidence: 75, rationale: 'Targeted review of existing materials. Scope should be confirmed in initial conversation.' };
+    return { type: 'Document Review', confidence: 75, rationale: 'Focused review of your materials. We\'ll confirm scope when we connect.' };
   }
 
   // Default
-  return { type: 'Full Consultation', confidence: 70, rationale: 'Based on the number of stakeholders and issues flagged, a structured consultation is recommended. Confirm in scoping call.' };
+  return { type: 'Full Consultation', confidence: 70, rationale: 'Given the number of people involved and issues that came up, a structured consultation would serve this well.' };
 }
 
 function assessComplexity(data, topics, results) {
@@ -512,7 +484,7 @@ function assessComplexity(data, topics, results) {
   var labels = { 1: 'Low', 2: 'Moderate', 3: 'High' };
 
   // Ensure at least 2 reasons
-  if (reasons.length < 2) reasons.push('Review surfaced materials to calibrate');
+  if (reasons.length < 2) reasons.push('We\'ll know more once we review these materials');
 
   return { level: level, label: labels[level], reasons: reasons.slice(0, 4) };
 }
@@ -592,6 +564,16 @@ function downloadReport() {
   sheets['Internal Documents'] = driveRows;
 
   exportXLSX(sheets, 'Consultation_Review_' + (data.referenceNumber || 'report') + '.xlsx');
+}
+
+function loadExampleAndScan() {
+  var exampleData = getExampleRequestData();
+
+  if (!saveRequest(exampleData)) {
+    alert('Unable to load example data. Please open the request form instead.');
+    return;
+  }
+  window.location.reload();
 }
 
 /* ── Page Init ─────────────────────────────── */

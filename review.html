@@ -27,10 +27,10 @@
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
       <div>
         <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.25rem;">
-          <h1 style="font-size: 1.75rem;">Preliminary Context Scan</h1>
+          <h1 style="font-size: 1.75rem;">What We Found</h1>
           <span class="badge badge-navy" id="badge-status">Scanning...</span>
         </div>
-        <p class="text-muted">Preliminary materials gathered to prepare your consultant. Not a determination.</p>
+        <p class="text-muted">Background we've pulled together before your first conversation. Not a determination.</p>
       </div>
       <div class="no-print" style="display: flex; gap: 0.5rem; align-items: center;">
         <span class="text-xs text-muted" id="ref-number"></span>
@@ -44,7 +44,10 @@
   <div class="container">
     <h2 style="color: var(--ink-muted); margin-bottom: 1rem;">No request data found</h2>
     <p class="text-muted mb-3">Submit a consultation request first, or load the example.</p>
-    <a href="request.html" class="btn btn-primary">Go to Request Form</a>
+    <div style="display: inline-flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+      <a href="request.html" class="btn btn-outline">Go to Request Form</a>
+      <button type="button" class="btn btn-primary" onclick="loadExampleAndScan()">Load Example &amp; Scan</button>
+    </div>
   </div>
 </section>
 
@@ -71,8 +74,8 @@
             <span>Analyzing request for key concepts...</span>
           </div>
           <div class="summary-block" id="content-concepts" style="display: none;">
-            <h3>Key Concepts &amp; Issues Flagged</h3>
-            <p class="text-xs text-muted mb-2">Terms and themes detected in your request that may need attention.</p>
+            <h3>What Stood Out</h3>
+            <p class="text-xs text-muted mb-2">Themes and terms from your request worth discussing.</p>
             <div id="concepts-list"></div>
           </div>
         </div>
@@ -84,8 +87,8 @@
             <span>Searching prior consultations &amp; internal documents...</span>
           </div>
           <div class="summary-block" id="content-drive" style="display: none;">
-            <h3>Related Internal Documents</h3>
-            <p class="text-xs text-muted mb-2">Prior consultations, memos, and policies that may be relevant. Sourced from organizational files.</p>
+            <h3>Related Work We've Done</h3>
+            <p class="text-xs text-muted mb-2">Previous consultations and policies that look relevant.</p>
             <div id="drive-list"></div>
           </div>
         </div>
@@ -97,8 +100,8 @@
             <span>Identifying applicable frameworks &amp; regulations...</span>
           </div>
           <div class="summary-block" id="content-frameworks" style="display: none;">
-            <h3>Applicable Frameworks &amp; Standards</h3>
-            <p class="text-xs text-muted mb-2">Ethical guidelines, professional standards, and regulatory frameworks flagged as potentially relevant.</p>
+            <h3>Frameworks That May Apply</h3>
+            <p class="text-xs text-muted mb-2">Guidelines and standards that seem relevant to your situation.</p>
             <div id="frameworks-list"></div>
           </div>
         </div>
@@ -111,7 +114,7 @@
           </div>
           <div class="summary-block" id="content-literature" style="display: none;">
             <h3>Recent Relevant Publications</h3>
-            <p class="text-xs text-muted mb-2">Papers and reports surfaced from academic databases. Titles and sources are real; relevance is preliminary.</p>
+            <p class="text-xs text-muted mb-2">Recent papers that look relevant. Real citations &mdash; we'll confirm fit in conversation.</p>
             <div id="literature-list"></div>
           </div>
         </div>
@@ -136,7 +139,7 @@
         </div>
 
         <div class="sidebar-card" id="sidebar-complexity" style="display: none;">
-          <h4>Complexity Indicators</h4>
+          <h4>Things to Note</h4>
           <div id="triage-complexity"></div>
         </div>
 

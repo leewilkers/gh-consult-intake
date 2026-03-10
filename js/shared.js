@@ -37,6 +37,25 @@ function clearRequest() {
   localStorage.removeItem(STORAGE_KEY);
 }
 
+function getExampleRequestData() {
+  return {
+    situation: 'We are a multi-country artisanal cheese research consortium (5 countries, 12+ planned publications) and need to develop a consortium-wide authorship policy. The core tension is between alphabetical ordering (the standard in our field) and contribution-based credit. Our Alpine-based co-PIs did most of the analytical work, but consortium norms prioritize LMIC first/last authorship. Country cheesemaking leads are peers and we have a very difficult time prioritizing one over another. The cave-aging modelers contributed significantly but their work spans all country papers. We need a policy framework before papers start getting written.',
+    whyNow: 'Publication planning is starting for the first wave of papers. Several country teams are drafting manuscripts now. Without a policy, authorship disputes will be handled ad hoc, which risks damaging relationships across the consortium. Our funder (Wellcome Trust) has equity requirements we need to address.',
+    name: 'Jane Doe, Co-PI, Cheese Consortium Project',
+    email: 'j.doe@globalcheesealliance.org',
+    organization: 'Global Artisanal Cheese Alliance',
+    otherPeople: 'John Doe (Co-PI, lead cave-aging modeler), 5 country cheesemaking leads, ~12 named co-investigators, Dr. A. Whitfield (ethics advisor), country milk collection teams, Wellcome Trust program officer',
+    affectedNotInvolved: 'Junior researchers and milk collectors across 5 country teams who contributed significantly but may not meet traditional authorship criteria. Community dairy workers involved in data collection. Future consortium members who will inherit whatever policy we set.',
+    engagementType: 'full',
+    documents: 'Internal consortium MOU (has authorship clause), BRIDGE Consortium authorship policy (comparator we found), draft publication plan listing all 12 papers with tentative author lists',
+    existingPolicies: 'ICMJE authorship criteria, CRediT contributor taxonomy, Wellcome Trust open access and equity requirements, Parker et al. (2022) fair partnerships framework',
+    urgency: 'standard',
+    decisionDate: '2026-04-15',
+    submittedAt: new Date().toISOString(),
+    referenceNumber: generateRefNumber()
+  };
+}
+
 /* ── Nav Active State ──────────────────────── */
 function initNav() {
   var path = window.location.pathname;
@@ -161,7 +180,14 @@ function generateRefNumber() {
 /* ── Date Formatting ───────────────────────── */
 function formatDate(dateStr) {
   if (!dateStr) return '';
-  var d = new Date(dateStr);
+  var d;
+  var isoMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateStr);
+  if (isoMatch) {
+    // Parse YYYY-MM-DD as local date to avoid UTC timezone shifts.
+    d = new Date(Number(isoMatch[1]), Number(isoMatch[2]) - 1, Number(isoMatch[3]));
+  } else {
+    d = new Date(dateStr);
+  }
   if (isNaN(d.getTime())) return dateStr;
   var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();

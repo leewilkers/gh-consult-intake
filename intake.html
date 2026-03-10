@@ -244,6 +244,7 @@ textarea { resize: vertical; }
 }
 .card-i:hover { border-color: var(--gold); background: var(--gold-bg); }
 .card-i.selected { border-color: var(--gold); background: var(--gold-bg); box-shadow: 0 0 0 3px rgba(184,134,11,0.12); }
+.card-i:focus-visible { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,134,11,0.18); }
 .card-i-icon { font-size: 1.3rem; margin-bottom: 0.3rem; }
 .card-i-title { font-size: 0.9rem; font-weight: 600; }
 .card-i-desc { font-size: 0.78rem; color: var(--ink-muted); margin-top: 0.2rem; }
@@ -261,6 +262,7 @@ textarea { resize: vertical; }
 }
 .urgency-option:hover { border-color: var(--gold); }
 .urgency-option.selected { border-color: var(--gold); background: var(--gold-bg); }
+.urgency-option:focus-visible { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,134,11,0.18); }
 .urgency-label { font-weight: 600; font-size: 0.85rem; }
 .urgency-time { font-size: 0.78rem; color: var(--ink-muted); }
 
@@ -580,15 +582,15 @@ textarea { resize: vertical; }
 
     <h3 class="section-header">Urgency</h3>
     <div class="urgency-options" id="urgency-options">
-      <div class="urgency-option" data-urgency="urgent" onclick="selectUrgency(this)">
+      <div class="urgency-option" data-urgency="urgent" role="button" tabindex="0" aria-pressed="false" onclick="selectUrgency(this)" onkeydown="handleUrgencyKey(event, this)">
         <div class="urgency-label">Urgent</div>
         <div class="urgency-time">Within 1 week</div>
       </div>
-      <div class="urgency-option" data-urgency="standard" onclick="selectUrgency(this)">
+      <div class="urgency-option" data-urgency="standard" role="button" tabindex="0" aria-pressed="false" onclick="selectUrgency(this)" onkeydown="handleUrgencyKey(event, this)">
         <div class="urgency-label">Standard</div>
         <div class="urgency-time">2&ndash;4 weeks</div>
       </div>
-      <div class="urgency-option" data-urgency="flexible" onclick="selectUrgency(this)">
+      <div class="urgency-option" data-urgency="flexible" role="button" tabindex="0" aria-pressed="false" onclick="selectUrgency(this)" onkeydown="handleUrgencyKey(event, this)">
         <div class="urgency-label">Flexible</div>
         <div class="urgency-time">No hard deadline</div>
       </div>
@@ -646,22 +648,22 @@ textarea { resize: vertical; }
     <p class="step-subtitle">What kind of engagement does this request warrant?</p>
 
     <div class="card-grid" id="engagement-cards">
-      <div class="card-i" data-engagement="full" onclick="selectEngagement(this)">
+      <div class="card-i" data-engagement="full" role="button" tabindex="0" aria-pressed="false" onclick="selectEngagement(this)" onkeydown="handleEngagementKey(event, this)">
         <div class="card-i-icon">&#9670;</div>
         <div class="card-i-title">Full Consult</div>
         <div class="card-i-desc">5-phase process with formal deliverables.</div>
       </div>
-      <div class="card-i" data-engagement="quick" onclick="selectEngagement(this)">
+      <div class="card-i" data-engagement="quick" role="button" tabindex="0" aria-pressed="false" onclick="selectEngagement(this)" onkeydown="handleEngagementKey(event, this)">
         <div class="card-i-icon">&#9656;</div>
         <div class="card-i-title">Quick Guidance</div>
         <div class="card-i-desc">Light-touch response, 1&ndash;2 pages.</div>
       </div>
-      <div class="card-i" data-engagement="meeting" onclick="selectEngagement(this)">
+      <div class="card-i" data-engagement="meeting" role="button" tabindex="0" aria-pressed="false" onclick="selectEngagement(this)" onkeydown="handleEngagementKey(event, this)">
         <div class="card-i-icon">&#9673;</div>
         <div class="card-i-title">Meeting Facilitation</div>
         <div class="card-i-desc">Structured discussion support.</div>
       </div>
-      <div class="card-i" data-engagement="review" onclick="selectEngagement(this)">
+      <div class="card-i" data-engagement="review" role="button" tabindex="0" aria-pressed="false" onclick="selectEngagement(this)" onkeydown="handleEngagementKey(event, this)">
         <div class="card-i-icon">&#9998;</div>
         <div class="card-i-title">Document Review</div>
         <div class="card-i-desc">Review and annotate existing drafts.</div>
