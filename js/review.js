@@ -32,10 +32,10 @@ var TOPIC_DB = {
       { name: 'COPE Authorship Guidelines', scope: 'International — publisher ethics', desc: 'Committee on Publication Ethics guidance on authorship disputes, gift authorship, and ghost authorship.', relevance: 'Medium' }
     ],
     literature: [
-      { cite: 'Hedt-Gauthier BL, et al. "Academic collaboration and global health: a call for a new model." BMJ Global Health, 2019;4(4):e001759.', excerpt: 'Argues current authorship practices disadvantage LMIC researchers. Proposes structural reforms for equitable credit in global health partnerships.', tag: 'Equity' },
-      { cite: 'Smith E, et al. "Authorship ethics in a collaborative era." Research Ethics, 2020;16(1-2):1-18.', excerpt: 'Reviews consortium authorship models across 12 large research collaborations. Finds no single model avoids all tensions — portfolio approaches perform best.', tag: 'Models' },
-      { cite: 'Parker M, et al. "Fair research partnerships and the moral foundations of global health." Bull WHO, 2023;101(1):63-71.', excerpt: 'Framework for fair partnerships including authorship. Emphasizes process (who decides) over formula (what rule).', tag: 'Framework' },
-      { cite: 'Rohwer A, et al. "Authorship practices in African health research partnerships." Research Integrity and Peer Review, 2022;7:5.', excerpt: 'Study of authorship practices in African health research partnerships. Documents gap between stated norms (equity) and actual practices (HIC-first).', tag: 'Evidence' }
+      { cite: 'Hedt-Gauthier BL, et al. "Stuck in the middle: a systematic review of authorship in collaborative health research in Africa, 2014-2016." BMJ Global Health, 2019;4(5):e001853.', excerpt: 'Systematic review finding African researchers disproportionately placed in middle-author positions while HIC researchers dominate first and last (prestige) positions.', tag: 'Evidence' },
+      { cite: 'Sam-Agudu NA, Abimbola S. "Using scientific authorship criteria as a tool for equitable inclusion in global health research." BMJ Global Health, 2021;6(10):e007632.', excerpt: 'Argues ICMJE criteria can be used proactively to include LMIC researchers rather than as gatekeeping tools. Notes the drafting/revision criterion is most commonly weaponized against LMIC collaborators.', tag: 'Framework' },
+      { cite: 'Morton B, et al. "Consensus statement on measures to promote equitable authorship in the publication of research from international partnerships." Anaesthesia, 2022;77(3):264-276.', excerpt: 'Multi-stakeholder consensus proposing structured reflexivity statements, expectation of LMIC first/last authorship, and journal-level policy changes.', tag: 'Practical' },
+      { cite: 'Brand A, et al. "Beyond authorship: attribution, contribution, collaboration, and credit." Learned Publishing, 2015;28(2):151-155.', excerpt: 'Foundational paper introducing the CRediT Contributor Roles Taxonomy with 14 defined roles, proposing a shift from binary authorship to granular contribution tracking.', tag: 'CRediT' }
     ]
   },
 
@@ -44,7 +44,7 @@ var TOPIC_DB = {
     concepts: [
       { term: 'HIC/LMIC Power Dynamics', note: 'Request names HIC co-PIs doing analytical work while LMIC norms expect first/last positions. Classic tension in global health partnerships.' },
       { term: 'Research Equity Requirements', note: 'Funder mentioned (Wellcome Trust) has explicit equity expectations. These may create obligations beyond standard practice.' },
-      { term: 'Capacity vs. Credit', note: 'Data collection teams contributed significantly but may not meet traditional authorship criteria. Raises question of whether criteria themselves are equitable.' }
+      { term: 'Capacity vs. Credit', note: 'Data collection teams contributed significantly but may not meet traditional authorship criteria. Raises question of whether the criteria themselves are equitable.' }
     ],
     drive: [
       { title: 'TFGH Fair Partnership Principles', type: 'Internal Policy', date: '2025-03', desc: 'Organizational principles for equitable research partnerships. Section 4 addresses publication equity.', match: 'Medium' },
@@ -55,8 +55,8 @@ var TOPIC_DB = {
       { name: 'Research Fairness Initiative (RFI)', scope: 'International — institutional standard', desc: 'Reporting standard for research institutions to demonstrate equitable partnership practices.', relevance: 'Low' }
     ],
     literature: [
-      { cite: 'Boshoff N. "Neo-colonialism and research collaboration in Central Africa." Scientometrics, 2009;81(2):413-434.', excerpt: 'Quantitative analysis of authorship patterns in North-South collaborations. First/last author positions held by HIC researchers in 68% of cases studied.', tag: 'Evidence' },
-      { cite: 'Irani E, et al. "Authorship equity in global health." Global Health Action, 2023;16(1):2186730.', excerpt: 'Practical recommendations for institutions and consortia to operationalize authorship equity. Includes decision flowchart.', tag: 'Practical' }
+      { cite: 'Mbaye R, et al. "Who is telling the story? A systematic review of authorship for infectious disease research conducted in Africa, 1980-2016." BMJ Global Health, 2019;4(5):e001855.', excerpt: 'Tracks 36 years of authorship patterns across six infectious diseases researched in Africa, documenting persistent under-representation of African researchers in first and last author positions.', tag: 'Evidence' },
+      { cite: 'Iyer AR. "Authorship trends in The Lancet Global Health." The Lancet Global Health, 2018;6(2):e142.', excerpt: 'Analysis of 236 research articles in The Lancet Global Health (2013-2017) finding only ~35% of authors affiliated with LMICs despite the journal focus on disadvantaged populations.', tag: 'Evidence' }
     ]
   },
 
@@ -74,7 +74,7 @@ var TOPIC_DB = {
       { name: 'Global Code of Conduct for Research in Resource-Poor Settings', scope: 'International — research ethics', desc: 'Addresses equitable partnerships including data sharing, authorship, and capacity building obligations.', relevance: 'Medium' }
     ],
     literature: [
-      { cite: 'Okwaro FM, Geissler PW. "In/dependent collaborations: perceptions and experiences of African scientists in transnational HIV research." Medical Anthropology Quarterly, 2015;29(4):492-511.', excerpt: 'Qualitative study of how African scientists experience authorship and credit in multi-site collaborations. Identifies hidden labor that goes unrecognized.', tag: 'Qualitative' }
+      { cite: 'Abimbola S. "The foreign gaze: authorship in academic global health." BMJ Global Health, 2019;4(5):e002068.', excerpt: 'Argues authorship inequity reflects a deeper problem of "gaze" — who researchers imagine writing for and about — rooted in power asymmetries between HIC and LMIC partners.', tag: 'Commentary' }
     ]
   },
 
@@ -93,15 +93,14 @@ var TOPIC_DB = {
       { name: 'CIOMS International Ethical Guidelines (2016)', scope: 'International — research ethics', desc: 'Guidelines for biomedical research involving human subjects. Guideline 9 covers informed consent specifically.', relevance: 'High' }
     ],
     literature: [
-      { cite: 'Mandava A, et al. "The quality of informed consent: mapping the landscape." Journal of Medical Ethics, 2012;38(6):356-365.', excerpt: 'Systematic review of empirical studies on informed consent quality. Finds significant gap between what is disclosed and what is understood.', tag: 'Review' }
+      { cite: 'Sam-Agudu NA, Abimbola S. "Using scientific authorship criteria as a tool for equitable inclusion in global health research." BMJ Global Health, 2021;6(10):e007632.', excerpt: 'Argues existing criteria (ICMJE) can be used as inclusion tools rather than gatekeeping mechanisms in research partnerships.', tag: 'Framework' }
     ]
   },
 
   community: {
     keywords: ['community', 'stakeholder', 'engagement', 'participation', 'affected', 'vulnerable', 'beneficiar'],
     concepts: [
-      { term: 'Missing Voices', note: 'Request identifies people affected but not currently in the conversation. Standard flag for ethics review.' },
-      { term: 'Stakeholder Mapping', note: 'Multiple groups with competing interests. Structured mapping helps ensure no perspective is overlooked.' }
+      { term: 'Missing Voices', note: 'Request identifies people affected but not currently in the conversation. Standard flag for ethics review.' }
     ],
     drive: [
       { title: 'Stakeholder Engagement Best Practices (FACE)', type: 'Guide', date: '2025-06', desc: 'Internal guide for identifying and engaging stakeholders in ethics consultations.', match: 'Low' }
@@ -115,8 +114,7 @@ var TOPIC_DB = {
   mda: {
     keywords: ['mda', 'mass drug', 'ntd', 'neglected tropical', 'filariasis', 'schistosomiasis', 'helminth', 'deworming'],
     concepts: [
-      { term: 'NTD Research Ethics', note: 'NTD research in endemic settings raises specific questions about community consent, benefit-sharing, and power dynamics.' },
-      { term: 'Disease-Specific Context', note: 'Lymphatic filariasis programs have specific operational contexts that shape ethical considerations (MDA campaigns, sentinel site monitoring).' }
+      { term: 'NTD Research Context', note: 'NTD research in endemic settings raises specific questions about community consent, benefit-sharing, and power dynamics between implementing and research partners.' }
     ],
     drive: [
       { title: 'MDA Ethics Review Notes', type: 'Prior Work', date: '2025-12', desc: 'Working notes from prior engagement on ethical issues in mass drug administration programs.', match: 'Medium' },
@@ -126,7 +124,7 @@ var TOPIC_DB = {
       { name: 'WHO NTD Roadmap 2021-2030', scope: 'International — programmatic', desc: 'Strategic targets for NTD elimination. Frames the research context for NTD consortium work.', relevance: 'Low' }
     ],
     literature: [
-      { cite: 'Pratt B, Loff B. "Equity in research partnerships for NTDs." Am J Trop Med Hyg, 2014;90(5):803-810.', excerpt: 'Analyzes research partnership equity specifically in NTD context. Argues NTD partnerships face unique challenges due to reliance on endemic country infrastructure.', tag: 'NTD-specific' }
+      { cite: 'Morton B, et al. "Consensus statement on measures to promote equitable authorship in the publication of research from international partnerships." Anaesthesia, 2022;77(3):264-276.', excerpt: 'Consensus statement with concrete measures for equitable authorship in international partnerships, applicable to NTD consortium contexts.', tag: 'Practical' }
     ]
   }
 };
