@@ -226,12 +226,12 @@ function generateSummary() {
   // Block 2: Diagnostic
   var b2 = block('2. Diagnostic Scan');
   var diagItems = [
-    { id: 'diag-meta', label: 'Meta-Concept', notes: 'diag-meta-notes' },
-    { id: 'diag-complexity', label: 'Complexity', notes: 'diag-complexity-notes' },
-    { id: 'diag-definition', label: 'Definition', notes: 'diag-definition-notes' },
-    { id: 'diag-downselect', label: 'Down-Selection', notes: 'diag-downselect-notes' },
-    { id: 'diag-perspective', label: 'Multiple-Perspective', notes: 'diag-perspective-notes' },
-    { id: 'diag-learning', label: 'Learning', notes: 'diag-learning-notes' }
+    { id: 'diag-meta', label: 'Unclear Terms', notes: 'diag-meta-notes' },
+    { id: 'diag-complexity', label: 'Competing Values', notes: 'diag-complexity-notes' },
+    { id: 'diag-definition', label: 'What Counts?', notes: 'diag-definition-notes' },
+    { id: 'diag-downselect', label: 'Options to Weigh', notes: 'diag-downselect-notes' },
+    { id: 'diag-perspective', label: 'Different Viewpoints', notes: 'diag-perspective-notes' },
+    { id: 'diag-learning', label: 'Open Questions', notes: 'diag-learning-notes' }
   ];
   for (var i = 0; i < diagItems.length; i++) {
     var d = diagItems[i];
@@ -375,8 +375,8 @@ function generateSummary() {
   var b7 = block('7. Initial Assessment');
   var problemTypes = [];
   if (document.getElementById('diag-complexity').checked) problemTypes.push('Complexity');
-  if (document.getElementById('diag-downselect').checked) problemTypes.push('Down-Selection');
-  if (document.getElementById('diag-meta').checked) problemTypes.push('Meta-Concept');
+  if (document.getElementById('diag-downselect').checked) problemTypes.push('Options to Weigh');
+  if (document.getElementById('diag-meta').checked) problemTypes.push('Unclear Terms');
   if (document.getElementById('diag-definition').checked) problemTypes.push('Definition');
   if (document.getElementById('diag-perspective').checked) problemTypes.push('Multiple-Perspective');
   if (document.getElementById('diag-learning').checked) problemTypes.push('Learning');
@@ -452,6 +452,24 @@ function prePopulate() {
   if (data.engagementType) {
     var engCard = document.querySelector('[data-engagement="' + data.engagementType + '"]');
     if (engCard) selectEngagement(engCard);
+  }
+
+  // Step 2: Diagnostic scan — pre-fill for demo flow
+  // Detect enough signal to populate (authorship + consortium keywords)
+  var allText = ((data.situation || '') + ' ' + (data.whyNow || '')).toLowerCase();
+  if (allText.indexOf('authorship') !== -1 || allText.indexOf('consortium') !== -1) {
+    setChecked('diag-meta', true);
+    setVal('diag-meta-notes', '"Best practice" = alphabetical order, but requester questions whether this applies given differential contributions.');
+    setChecked('diag-complexity', true);
+    setVal('diag-complexity-notes', 'HIC leads vs. LMIC norms; differential contribution vs. alphabetical ordering; peer country PIs; country data vs. synthesis credit.');
+    setChecked('diag-definition', true);
+    setVal('diag-definition-notes', 'What counts as "substantial contribution" for multi-country papers?');
+    setChecked('diag-downselect', true);
+    setVal('diag-downselect-notes', 'Alphabetical (standard), contribution-based ordering, joint first/senior authorship, portfolio approach (rotate leads), working group authorship.');
+    setChecked('diag-perspective', true);
+    setVal('diag-perspective-notes', 'Alpine co-PIs, country cheesemaking leads, cave-aging modelers, country milk collection teams, funder, alliance leadership.');
+    setChecked('diag-learning', true);
+    setVal('diag-learning-notes', 'What did country teams contribute beyond data collection? What are funder expectations on LMIC authorship? How did comparable consortia handle this?');
   }
 
   // Show pre-fill badges

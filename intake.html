@@ -13,7 +13,7 @@
    ═══════════════════════════════════════════════ */
 
 :root {
-  --font-heading: Georgia, 'Times New Roman', serif;
+  --font-heading: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
   --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
   --stone-50: #faf8f5;
   --stone-100: #f0ece4;
@@ -449,45 +449,45 @@ textarea { resize: vertical; }
   <!-- STEP 2: Diagnostic Scan -->
   <div class="step-panel" data-step="2">
     <h2 class="step-title">Diagnostic Scan</h2>
-    <p class="step-subtitle">Apply the 6-problem framework. Check each that applies, then add notes.</p>
+    <p class="step-subtitle">What kind of problem is this? Check each that applies, then add notes.</p>
 
     <div class="check-group">
       <div class="check-item">
         <input type="checkbox" id="diag-meta">
         <div class="check-label">
-          <span class="check-title">Meta-Concept</span>
-          <span class="check-desc">What does X mean here? Are key terms clearly defined?</span>
+          <span class="check-title">Unclear Terms</span>
+          <span class="check-desc">Are key terms being used differently by different people?</span>
           <textarea id="diag-meta-notes" rows="2" placeholder="What concepts need clarification?" style="margin-top:0.5rem"></textarea>
         </div>
       </div>
       <div class="check-item">
         <input type="checkbox" id="diag-complexity">
         <div class="check-label">
-          <span class="check-title">Complexity</span>
-          <span class="check-desc">What tensions exist? Multiple values pulling in different directions?</span>
+          <span class="check-title">Competing Values</span>
+          <span class="check-desc">Are multiple values pulling in different directions?</span>
           <textarea id="diag-complexity-notes" rows="2" placeholder="What tensions are present?" style="margin-top:0.5rem"></textarea>
         </div>
       </div>
       <div class="check-item">
         <input type="checkbox" id="diag-definition">
         <div class="check-label">
-          <span class="check-title">Definition</span>
-          <span class="check-desc">How do we operationalize this? What does "good" look like?</span>
-          <textarea id="diag-definition-notes" rows="2" placeholder="What needs to be operationalized?" style="margin-top:0.5rem"></textarea>
+          <span class="check-title">What Counts?</span>
+          <span class="check-desc">Do people agree on what "good" looks like here?</span>
+          <textarea id="diag-definition-notes" rows="2" placeholder="What needs to be defined or measured?" style="margin-top:0.5rem"></textarea>
         </div>
       </div>
       <div class="check-item">
         <input type="checkbox" id="diag-downselect">
         <div class="check-label">
-          <span class="check-title">Down-Selection</span>
-          <span class="check-desc">Which approach should be pursued? What are the options?</span>
+          <span class="check-title">Options to Weigh</span>
+          <span class="check-desc">Are there multiple approaches, and someone needs to choose?</span>
           <textarea id="diag-downselect-notes" rows="2" placeholder="What options exist?" style="margin-top:0.5rem"></textarea>
         </div>
       </div>
       <div class="check-item">
         <input type="checkbox" id="diag-perspective">
         <div class="check-label">
-          <span class="check-title">Multiple-Perspective</span>
+          <span class="check-title">Different Viewpoints</span>
           <span class="check-desc">Whose interests are at stake? Who sees it differently?</span>
           <textarea id="diag-perspective-notes" rows="2" placeholder="Whose interests are at stake?" style="margin-top:0.5rem"></textarea>
         </div>
@@ -495,8 +495,8 @@ textarea { resize: vertical; }
       <div class="check-item">
         <input type="checkbox" id="diag-learning">
         <div class="check-label">
-          <span class="check-title">Learning</span>
-          <span class="check-desc">What don't we know yet? What questions remain?</span>
+          <span class="check-title">Open Questions</span>
+          <span class="check-desc">What don't we know yet? What needs investigating?</span>
           <textarea id="diag-learning-notes" rows="2" placeholder="What needs to be investigated?" style="margin-top:0.5rem"></textarea>
         </div>
       </div>
