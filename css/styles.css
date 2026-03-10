@@ -48,15 +48,15 @@
   --shadow-glow: 0 0 0 3px rgba(217,119,6,0.15);
 
   /* Typography */
-  --font-heading: Georgia, 'Times New Roman', serif;
+  --font-heading: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
   --font-body:    system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
   --font-mono:    'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
 
   /* Layout */
-  --max-width:   960px;
-  --radius:      3px;
-  --radius-lg:   4px;
-  --radius-xl:   6px;
+  --max-width:   880px;
+  --radius:      8px;
+  --radius-lg:   10px;
+  --radius-xl:   12px;
   --transition:  0.15s ease;
   --transition-slow: 0.3s ease;
 }
@@ -73,7 +73,7 @@ html {
 }
 body {
   font-family: var(--font-body);
-  background: var(--paper);
+  background: var(--surface);
   color: var(--ink);
   line-height: 1.6;
   min-height: 100vh;
@@ -86,19 +86,19 @@ a:hover { color: var(--amber); }
 /* ── Nav Bar ───────────────────────────────── */
 .nav-bar {
   background: var(--paper);
-  padding: 0 2rem;
+  padding: 0 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 52px;
+  height: 48px;
   position: sticky;
   top: 0;
   z-index: 100;
   border-bottom: 1px solid var(--border);
 }
 .nav-brand {
-  font-family: var(--font-heading);
-  font-size: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   color: var(--ink);
   letter-spacing: -0.01em;
   display: flex;
@@ -110,7 +110,7 @@ a:hover { color: var(--amber); }
 .nav-brand .brand-mark { display: none; }
 .nav-links {
   display: flex;
-  gap: 0;
+  gap: 0.25rem;
   list-style: none;
   height: 100%;
 }
@@ -118,18 +118,19 @@ a:hover { color: var(--amber); }
   color: var(--ink-muted);
   font-size: 0.8rem;
   font-weight: 500;
-  padding: 0 1rem;
-  height: 100%;
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--radius);
   display: flex;
   align-items: center;
-  border-bottom: 2px solid transparent;
   transition: all var(--transition);
 }
 .nav-links a:hover {
   color: var(--ink);
+  background: var(--surface-alt);
 }
 .nav-links a.active {
   color: var(--ink);
+  background: var(--surface-alt);
 }
 
 /* ── Container ─────────────────────────────── */
@@ -146,10 +147,10 @@ a:hover { color: var(--amber); }
 
 /* ── Section ───────────────────────────────── */
 .section {
-  padding: 4rem 0;
+  padding: 2.5rem 0;
 }
 .section-sm {
-  padding: 2.5rem 0;
+  padding: 1.75rem 0;
 }
 .section-alt {
   background: var(--paper);
@@ -161,10 +162,10 @@ h1, h2, h3, h4 {
   color: var(--ink);
   line-height: 1.25;
 }
-h1 { font-size: 2.25rem; letter-spacing: -0.02em; }
-h2 { font-size: 1.75rem; letter-spacing: -0.01em; }
-h3 { font-size: 1.25rem; }
-h4 { font-size: 1.05rem; }
+h1 { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; }
+h2 { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.01em; }
+h3 { font-size: 1.1rem; font-weight: 600; }
+h4 { font-size: 0.95rem; font-weight: 600; }
 
 .text-muted { color: var(--ink-muted); }
 .text-light { color: var(--ink-light); }
@@ -261,37 +262,37 @@ h4 { font-size: 1.05rem; }
 .triage-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  gap: 0.75rem;
 }
 .triage-card {
   display: flex;
   flex-direction: column;
   background: var(--paper);
-  padding: 1.5rem;
+  padding: 1.25rem;
   text-decoration: none;
   color: var(--ink);
-  transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
-  box-shadow: inset 0 0 0 0 var(--amber);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 .triage-card:hover {
-  background: #fafafa;
-  box-shadow: inset 3px 0 0 0 var(--amber);
-  transform: translateY(-1px);
+  border-color: var(--navy-light);
+  box-shadow: var(--shadow-sm);
   color: var(--ink);
 }
+.triage-header { display: none; }
+.triage-icon { display: none; }
 .triage-title {
-  font-family: var(--font-heading);
-  font-size: 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
   line-height: 1.3;
   color: var(--ink);
-  margin-bottom: 0.15rem;
 }
 .triage-timing {
   font-size: 0.75rem;
   color: var(--ink-muted);
-  margin-bottom: 0.6rem;
+  margin-top: 0.15rem;
+  margin-bottom: 0.5rem;
 }
 .triage-desc {
   font-size: 0.84rem;
@@ -300,6 +301,7 @@ h4 { font-size: 1.05rem; }
   margin-bottom: 0;
   flex: 1;
 }
+.triage-examples { display: none; }
 
 @media (max-width: 768px) {
   .triage-grid { grid-template-columns: 1fr; }
@@ -397,17 +399,17 @@ h4 { font-size: 1.05rem; }
 
 /* Step number badge on cards */
 .card-step {
-  width: 24px;
-  height: 24px;
-  border-radius: var(--radius);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
   background: var(--navy);
   color: #fff;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.6rem;
+  flex-shrink: 0;
 }
 
 /* ── Forms ──────────────────────────────────── */
@@ -638,12 +640,12 @@ textarea { resize: vertical; min-height: 2.5rem; }
 
 /* ── Footer ────────────────────────────────── */
 .site-footer {
-  background: transparent;
+  background: var(--surface-alt);
   color: var(--ink-muted);
-  padding: 2rem 0;
+  padding: 1.5rem 0;
   font-size: 0.78rem;
-  margin-top: 3rem;
-  border-top: 1px solid var(--border-light);
+  margin-top: 2rem;
+  border-top: 1px solid var(--border);
 }
 .site-footer a {
   color: var(--ink-light);
@@ -726,7 +728,7 @@ textarea { resize: vertical; min-height: 2.5rem; }
     padding: 0.25rem 0.65rem;
     font-size: 0.8rem;
   }
-  .nav-links a.active { background: var(--navy-wash); }
+  .nav-links a.active { background: var(--surface-alt); }
   .container { padding: 0 1rem; }
   .section { padding: 2.5rem 0; }
   h1 { font-size: 1.75rem; }
