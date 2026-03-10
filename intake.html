@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consultant Intake &mdash; Ethics Consultation Service</title>
+<style>
+/* ═══════════════════════════════════════════════
+   CONSULTANT INTAKE – Stone/Goldenrod palette
+   Distinct from the client-facing navy/amber.
+   This is the consultant's internal tool.
+   ═══════════════════════════════════════════════ */
+
+:root {
+  --font-heading: Georgia, 'Times New Roman', serif;
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --stone-50: #faf8f5;
+  --stone-100: #f0ece4;
+  --stone-200: #e2dbd0;
+  --stone-300: #c9bfaf;
+  --stone-400: #a99c88;
+  --stone-500: #8a7d6b;
+  --ink: #2c2418;
+  --ink-light: #5c5040;
+  --ink-muted: #8a7d6b;
+  --gold: #b8860b;
+  --gold-hover: #9a7009;
+  --gold-light: #daa520;
+  --gold-bg: #fdf8ef;
+  --gold-border: #e8d5a8;
+  --success: #4a7c59;
+  --success-bg: #eef5f0;
+  --warn: #9c6c28;
+  --warn-bg: #fef9f0;
+  --error: #9c3a3a;
+  --border: #e2dbd0;
+  --surface: #f5f0e8;
+  --paper: #ffffff;
+  --shadow-sm: 0 1px 2px rgba(44,36,24,0.06);
+  --shadow-md: 0 4px 12px rgba(44,36,24,0.08);
+  --shadow-lg: 0 8px 24px rgba(44,36,24,0.12);
+  --radius: 8px;
+  --radius-lg: 12px;
+  --transition: 0.2s ease;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body { font-family: var(--font-body); background: var(--stone-50); color: var(--ink); line-height: 1.6; }
+::selection { background: var(--gold-light); color: var(--ink); }
+
+/* Top Bar */
+.top-bar {
+  background: var(--ink);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.top-bar h1 {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--gold-light);
+  font-weight: 400;
+}
+.top-bar .actions { display: flex; gap: 0.5rem; }
+.btn-ghost-i {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.7);
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-ghost-i:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+/* Breadcrumb back link */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--ink-muted);
+  font-size: 0.85rem;
+  text-decoration: none;
+  margin: 1.25rem 2rem 0;
+  transition: color var(--transition);
+}
+.back-link:hover { color: var(--ink); }
+
+/* Stepper */
+.stepper-wrap {
+  background: var(--paper);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  overflow-x: auto;
+}
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+  gap: 0;
+}
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  opacity: 0.5;
+  cursor: default;
+  white-space: nowrap;
+}
+.step-indicator.visited { opacity: 0.8; cursor: pointer; }
+.step-indicator.active { opacity: 1; }
+.step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--stone-200);
+  color: var(--ink-light);
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+}
+.step-indicator.active .step-num { background: var(--gold); color: #fff; }
+.step-indicator.visited .step-num { background: var(--ink); color: var(--stone-100); }
+.step-label { font-size: 0.78rem; color: var(--ink-muted); }
+.step-indicator.active .step-label { color: var(--ink); font-weight: 600; }
+.step-connector { width: 24px; height: 1px; background: var(--stone-200); margin: 0 0.25rem; }
+
+/* Main */
+.main {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* Step Panels */
+.step-panel { display: none; }
+.step-panel.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.step-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+.step-subtitle {
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  margin-bottom: 1.5rem;
+}
+
+/* Pre-fill indicator */
+.prefill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--gold-bg);
+  border: 1px solid var(--gold-border);
+  color: var(--warn);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
+  margin-bottom: 1rem;
+}
+
+/* Form Elements */
+.field-group { margin-bottom: 1.25rem; }
+.field-group:last-child { margin-bottom: 0; }
+.field-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.35rem;
+}
+.hint {
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+input[type="text"], input[type="email"], input[type="date"], textarea, select {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--ink);
+  background: var(--paper);
+  transition: all var(--transition);
+  line-height: 1.5;
+}
+input:focus, textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,134,11,0.12); }
+textarea { resize: vertical; }
+.field-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+.section-header {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--ink);
+  margin: 1.8rem 0 0.8rem;
+}
+
+/* Check Items */
+.check-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.check-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--paper);
+}
+.check-item input[type="checkbox"] { margin-top: 0.25rem; accent-color: var(--gold); }
+.check-label { flex: 1; }
+.check-title { font-weight: 600; font-size: 0.9rem; display: block; }
+.check-desc { font-size: 0.8rem; color: var(--ink-muted); display: block; margin-top: 0.15rem; }
+
+/* Cards */
+.card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.card-i {
+  background: var(--paper);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: center;
+}
+.card-i:hover { border-color: var(--gold); background: var(--gold-bg); }
+.card-i.selected { border-color: var(--gold); background: var(--gold-bg); box-shadow: 0 0 0 3px rgba(184,134,11,0.12); }
+.card-i-icon { font-size: 1.3rem; margin-bottom: 0.3rem; }
+.card-i-title { font-size: 0.9rem; font-weight: 600; }
+.card-i-desc { font-size: 0.78rem; color: var(--ink-muted); margin-top: 0.2rem; }
+
+/* Urgency */
+.urgency-options { display: flex; gap: 0.5rem; }
+.urgency-option {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.urgency-option:hover { border-color: var(--gold); }
+.urgency-option.selected { border-color: var(--gold); background: var(--gold-bg); }
+.urgency-label { font-weight: 600; font-size: 0.85rem; }
+.urgency-time { font-size: 0.78rem; color: var(--ink-muted); }
+
+/* Stakeholder Entries */
+.stakeholder-entry {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.add-btn {
+  background: transparent;
+  border: 1px dashed var(--border);
+  color: var(--ink-muted);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.add-btn:hover { border-color: var(--gold); color: var(--ink); }
+
+/* Nav Buttons */
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.btn-prev, .btn-next {
+  padding: 0.65rem 1.5rem;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+  border: none;
+}
+.btn-prev {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--ink-light);
+}
+.btn-prev:hover { border-color: var(--ink-light); color: var(--ink); }
+.btn-prev:disabled { opacity: 0.3; cursor: default; }
+.btn-next {
+  background: var(--gold);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.btn-next:hover { background: var(--gold-hover); box-shadow: var(--shadow-md); }
+
+/* Summary */
+.summary-block-i {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.summary-block-i h3 {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--stone-100);
+}
+.summary-row-i { display: flex; padding: 0.3rem 0; font-size: 0.85rem; line-height: 1.5; }
+.summary-label-i { flex: 0 0 160px; color: var(--ink-muted); font-weight: 500; }
+.summary-value-i { color: var(--ink); flex: 1; }
+.summary-note-i { font-size: 0.85rem; color: var(--ink); line-height: 1.5; margin-top: 0.3rem; white-space: pre-wrap; }
+.summary-actions-i { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+.btn-print-i {
+  padding: 0.6rem 1.5rem;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all var(--transition);
+}
+.btn-print-i:hover { background: var(--ink-light); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .top-bar { padding: 0.75rem 1rem; }
+  .stepper-wrap { padding: 0 1rem; }
+  .step-label { display: none; }
+  .main { padding: 1.5rem 1rem 3rem; }
+  .field-row { grid-template-columns: 1fr; }
+  .card-grid { grid-template-columns: 1fr; }
+  .urgency-options { flex-direction: column; }
+  .stakeholder-entry { grid-template-columns: 1fr; }
+}
+@media (max-width: 375px) {
+  .top-bar { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+  .nav-buttons { flex-direction: column; gap: 0.75rem; }
+  .btn-prev, .btn-next { width: 100%; text-align: center; }
+}
+@media print {
+  body { background: white; }
+  .top-bar, .stepper-wrap, .nav-buttons, .summary-actions-i, .btn-ghost-i, .back-link, .prefill-badge { display: none !important; }
+  .main { max-width: 100%; padding: 0; }
+  .step-panel { display: none !important; }
+  .step-panel[data-step="7"] { display: block !important; }
+  .summary-block-i { border: 1px solid #ccc; break-inside: avoid; page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <h1>Consultant Intake</h1>
+  <div class="actions">
+    <button class="btn-ghost-i" id="btn-example">See Example</button>
+    <button class="btn-ghost-i" id="btn-clear" style="display:none">Clear</button>
+  </div>
+</div>
+
+<!-- Back Link -->
+<a href="review.html" class="back-link">&larr; Back to Review</a>
+
+<!-- Stepper -->
+<div class="stepper-wrap">
+  <div class="stepper" id="stepper"></div>
+</div>
+
+<!-- Main -->
+<div class="main">
+
+  <!-- STEP 1: What's Being Asked? -->
+  <div class="step-panel" data-step="1">
+    <h2 class="step-title">What's Being Asked?</h2>
+    <p class="step-subtitle">Capture the consultation request and context.</p>
+    <div id="prefill-1"></div>
+
+    <div class="field-group">
+      <label for="stated-request">Stated Request</label>
+      <textarea id="stated-request" rows="3" placeholder="Capture the request in the requester's own words..."></textarea>
+      <p class="hint">Quote their actual phrasing when possible</p>
+    </div>
+    <div class="field-group">
+      <label for="why-now">Why Now?</label>
+      <textarea id="why-now" rows="2" placeholder="What triggered this request? Timeline pressures?"></textarea>
+    </div>
+
+    <hr class="divider">
+    <h3 class="section-header">Who's Asking?</h3>
+
+    <div class="field-row" style="margin-bottom:1rem">
+      <div class="field-group">
+        <label for="primary-name">Primary Contact</label>
+        <input type="text" id="primary-name" placeholder="Name, Role">
+      </div>
+      <div class="field-group">
+        <label for="primary-email">Email</label>
+        <input type="email" id="primary-email" placeholder="email@org.org">
+      </div>
+    </div>
+    <div class="field-row" style="margin-bottom:1rem">
+      <div class="field-group">
+        <label for="decision-maker">Decision-Maker (if different)</label>
+        <input type="text" id="decision-maker" placeholder="Name, Role">
+      </div>
+      <div class="field-group">
+        <label for="other-stakeholders">Other Stakeholders</label>
+        <input type="text" id="other-stakeholders" placeholder="Names or groups">
+      </div>
+    </div>
+    <div class="field-group">
+      <label for="case-id">Case ID</label>
+      <input type="text" id="case-id" placeholder="YYYY-MM_Client_Topic">
+    </div>
+  </div>
+
+  <!-- STEP 2: Diagnostic Scan -->
+  <div class="step-panel" data-step="2">
+    <h2 class="step-title">Diagnostic Scan</h2>
+    <p class="step-subtitle">Apply the 6-problem framework. Check each that applies, then add notes.</p>
+
+    <div class="check-group">
+      <div class="check-item">
+        <input type="checkbox" id="diag-meta">
+        <div class="check-label">
+          <span class="check-title">Meta-Concept</span>
+          <span class="check-desc">What does X mean here? Are key terms clearly defined?</span>
+          <textarea id="diag-meta-notes" rows="2" placeholder="What concepts need clarification?" style="margin-top:0.5rem"></textarea>
+        </div>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="diag-complexity">
+        <div class="check-label">
+          <span class="check-title">Complexity</span>
+          <span class="check-desc">What tensions exist? Multiple values pulling in different directions?</span>
+          <textarea id="diag-complexity-notes" rows="2" placeholder="What tensions are present?" style="margin-top:0.5rem"></textarea>
+        </div>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="diag-definition">
+        <div class="check-label">
+          <span class="check-title">Definition</span>
+          <span class="check-desc">How do we operationalize this? What does "good" look like?</span>
+          <textarea id="diag-definition-notes" rows="2" placeholder="What needs to be operationalized?" style="margin-top:0.5rem"></textarea>
+        </div>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="diag-downselect">
+        <div class="check-label">
+          <span class="check-title">Down-Selection</span>
+          <span class="check-desc">Which approach should be pursued? What are the options?</span>
+          <textarea id="diag-downselect-notes" rows="2" placeholder="What options exist?" style="margin-top:0.5rem"></textarea>
+        </div>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="diag-perspective">
+        <div class="check-label">
+          <span class="check-title">Multiple-Perspective</span>
+          <span class="check-desc">Whose interests are at stake? Who sees it differently?</span>
+          <textarea id="diag-perspective-notes" rows="2" placeholder="Whose interests are at stake?" style="margin-top:0.5rem"></textarea>
+        </div>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="diag-learning">
+        <div class="check-label">
+          <span class="check-title">Learning</span>
+          <span class="check-desc">What don't we know yet? What questions remain?</span>
+          <textarea id="diag-learning-notes" rows="2" placeholder="What needs to be investigated?" style="margin-top:0.5rem"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: Stakeholder Map -->
+  <div class="step-panel" data-step="3">
+    <h2 class="step-title">Stakeholder Map</h2>
+    <p class="step-subtitle">Who has a stake in this situation?</p>
+    <div id="prefill-3"></div>
+
+    <h3 class="section-header" style="margin-top:0">Primary Stakeholders</h3>
+    <div id="primary-stakeholders">
+      <div class="stakeholder-entry">
+        <div class="field-group"><label>Name / Group</label><input type="text" class="sh-primary-name" placeholder="Who?"></div>
+        <div class="field-group"><label>Interest / Stake</label><input type="text" class="sh-primary-interest" placeholder="What do they care about?"></div>
+      </div>
+      <div class="stakeholder-entry">
+        <div class="field-group"><label>Name / Group</label><input type="text" class="sh-primary-name" placeholder="Who?"></div>
+        <div class="field-group"><label>Interest / Stake</label><input type="text" class="sh-primary-interest" placeholder="What do they care about?"></div>
+      </div>
+    </div>
+    <button class="add-btn" onclick="addPrimaryStakeholder()">+ Add stakeholder</button>
+
+    <h3 class="section-header">Secondary / Affected Parties</h3>
+    <div id="secondary-stakeholders">
+      <div class="stakeholder-entry">
+        <div class="field-group"><label>Name / Group</label><input type="text" class="sh-secondary-name" placeholder="Who?"></div>
+        <div class="field-group"><label>Interest / Stake</label><input type="text" class="sh-secondary-interest" placeholder="What do they care about?"></div>
+      </div>
+      <div class="stakeholder-entry">
+        <div class="field-group"><label>Name / Group</label><input type="text" class="sh-secondary-name" placeholder="Who?"></div>
+        <div class="field-group"><label>Interest / Stake</label><input type="text" class="sh-secondary-interest" placeholder="What do they care about?"></div>
+      </div>
+    </div>
+
+    <h3 class="section-header">Missing Voices</h3>
+    <div class="check-group" style="margin-bottom:1rem">
+      <div class="check-item">
+        <input type="checkbox" id="mv-lmic"><div class="check-label"><span class="check-title">LMIC researchers / partners</span></div>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="mv-community"><div class="check-label"><span class="check-title">Community members / participants</span></div>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="mv-junior"><div class="check-label"><span class="check-title">Junior / early-career researchers</span></div>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="mv-funders"><div class="check-label"><span class="check-title">Funders / institutional leadership</span></div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label for="mv-notes">Missing voices notes</label>
+      <textarea id="mv-notes" rows="2" placeholder="Who else should be heard?"></textarea>
+    </div>
+  </div>
+
+  <!-- STEP 4: Scope & Timeline -->
+  <div class="step-panel" data-step="4">
+    <h2 class="step-title">Scope &amp; Timeline</h2>
+    <p class="step-subtitle">Define boundaries and pace.</p>
+
+    <div class="field-group">
+      <label for="in-scope">In Scope</label>
+      <textarea id="in-scope" rows="3" placeholder="What will this consultation address?"></textarea>
+    </div>
+    <div class="field-group">
+      <label for="out-scope">Out of Scope</label>
+      <textarea id="out-scope" rows="2" placeholder="What is explicitly excluded?"></textarea>
+    </div>
+
+    <hr class="divider">
+    <h3 class="section-header">Key Dates</h3>
+    <div class="field-row" style="margin-bottom:0.75rem">
+      <div class="field-group"><label for="ms-consult">Initial Consultation</label><input type="date" id="ms-consult"></div>
+      <div class="field-group"><label for="ms-draft">Draft Due</label><input type="date" id="ms-draft"></div>
+    </div>
+    <div class="field-row" style="margin-bottom:1rem">
+      <div class="field-group"><label for="ms-final">Final Delivery</label><input type="date" id="ms-final"></div>
+      <div class="field-group"><label for="ms-deadline">Decision Deadline</label><input type="date" id="ms-deadline"></div>
+    </div>
+
+    <h3 class="section-header">Urgency</h3>
+    <div class="urgency-options" id="urgency-options">
+      <div class="urgency-option" data-urgency="urgent" onclick="selectUrgency(this)">
+        <div class="urgency-label">Urgent</div>
+        <div class="urgency-time">Within 1 week</div>
+      </div>
+      <div class="urgency-option" data-urgency="standard" onclick="selectUrgency(this)">
+        <div class="urgency-label">Standard</div>
+        <div class="urgency-time">2&ndash;4 weeks</div>
+      </div>
+      <div class="urgency-option" data-urgency="flexible" onclick="selectUrgency(this)">
+        <div class="urgency-label">Flexible</div>
+        <div class="urgency-time">No hard deadline</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5: Prior Context -->
+  <div class="step-panel" data-step="5">
+    <h2 class="step-title">Prior Context</h2>
+    <p class="step-subtitle">What already exists that's relevant?</p>
+    <div id="prefill-5"></div>
+
+    <div class="check-group" style="margin-bottom:1.25rem">
+      <div class="check-item">
+        <input type="checkbox" id="pc-prior"><div class="check-label"><span class="check-title">Prior consultations on this topic</span>
+        <textarea id="pc-prior-notes" rows="2" placeholder="Details..." style="margin-top:0.4rem"></textarea></div>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="pc-policies"><div class="check-label"><span class="check-title">Existing policies / guidance</span>
+        <textarea id="pc-policies-notes" rows="2" placeholder="What exists?" style="margin-top:0.4rem"></textarea></div>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="pc-precedents"><div class="check-label"><span class="check-title">Precedents</span>
+        <textarea id="pc-precedents-notes" rows="2" placeholder="Similar cases?" style="margin-top:0.4rem"></textarea></div>
+      </div>
+    </div>
+
+    <h3 class="section-header">Key Documents</h3>
+    <div id="key-documents">
+      <div class="field-row" style="margin-bottom:0.75rem">
+        <div class="field-group"><label>Document</label><input type="text" class="doc-name" placeholder="Document name"></div>
+        <div class="field-group"><label>Location / Status</label><input type="text" class="doc-location" placeholder="Where to find it"></div>
+      </div>
+      <div class="field-row" style="margin-bottom:0.75rem">
+        <div class="field-group"><label>Document</label><input type="text" class="doc-name" placeholder="Document name"></div>
+        <div class="field-group"><label>Location / Status</label><input type="text" class="doc-location" placeholder="Where to find it"></div>
+      </div>
+    </div>
+    <button class="add-btn" onclick="addDocument()">+ Add document</button>
+
+    <hr class="divider">
+    <h3 class="section-header">Expert Resources</h3>
+    <div id="expert-resources">
+      <div class="field-row" style="margin-bottom:0.75rem">
+        <div class="field-group"><label>Expert</label><input type="text" class="expert-name" placeholder="Name, domain"></div>
+        <div class="field-group"><label>Status</label><input type="text" class="expert-status" placeholder="Consulted? Available?"></div>
+      </div>
+    </div>
+    <button class="add-btn" onclick="addExpert()">+ Add expert</button>
+  </div>
+
+  <!-- STEP 6: Engagement Type -->
+  <div class="step-panel" data-step="6">
+    <h2 class="step-title">Engagement Type</h2>
+    <p class="step-subtitle">What kind of engagement does this request warrant?</p>
+
+    <div class="card-grid" id="engagement-cards">
+      <div class="card-i" data-engagement="full" onclick="selectEngagement(this)">
+        <div class="card-i-icon">&#9670;</div>
+        <div class="card-i-title">Full Consult</div>
+        <div class="card-i-desc">5-phase process with formal deliverables.</div>
+      </div>
+      <div class="card-i" data-engagement="quick" onclick="selectEngagement(this)">
+        <div class="card-i-icon">&#9656;</div>
+        <div class="card-i-title">Quick Guidance</div>
+        <div class="card-i-desc">Light-touch response, 1&ndash;2 pages.</div>
+      </div>
+      <div class="card-i" data-engagement="meeting" onclick="selectEngagement(this)">
+        <div class="card-i-icon">&#9673;</div>
+        <div class="card-i-title">Meeting Facilitation</div>
+        <div class="card-i-desc">Structured discussion support.</div>
+      </div>
+      <div class="card-i" data-engagement="review" onclick="selectEngagement(this)">
+        <div class="card-i-icon">&#9998;</div>
+        <div class="card-i-title">Document Review</div>
+        <div class="card-i-desc">Review and annotate existing drafts.</div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label for="engagement-rationale">Rationale</label>
+      <textarea id="engagement-rationale" rows="3" placeholder="Why this engagement type?"></textarea>
+    </div>
+
+    <hr class="divider">
+    <h3 class="section-header">Expected Deliverables</h3>
+    <div class="check-group">
+      <div class="check-item"><input type="checkbox" id="del-memo"><div class="check-label"><span class="check-title">Guidance memo</span></div></div>
+      <div class="check-item"><input type="checkbox" id="del-brief"><div class="check-label"><span class="check-title">Synthesis brief</span></div></div>
+      <div class="check-item"><input type="checkbox" id="del-policy"><div class="check-label"><span class="check-title">Policy skeleton</span></div></div>
+      <div class="check-item"><input type="checkbox" id="del-meeting"><div class="check-label"><span class="check-title">Meeting facilitation</span></div></div>
+      <div class="check-item">
+        <input type="checkbox" id="del-other">
+        <div class="check-label">
+          <span class="check-title">Other</span>
+          <input type="text" id="del-other-text" placeholder="Specify..." style="margin-top:0.4rem">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 7: Assessment Summary -->
+  <div class="step-panel" data-step="7">
+    <h2 class="step-title">Assessment Summary</h2>
+    <p class="step-subtitle">Auto-generated from your inputs. Review, then print or share.</p>
+    <div id="summary-container"></div>
+    <div class="summary-actions-i">
+      <button class="btn-print-i" onclick="window.print()">Print Summary</button>
+      <button class="btn-ghost-i" style="color:var(--ink-light);border-color:var(--border)" onclick="goToStep(1)">Edit Responses</button>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <div class="nav-buttons">
+    <button class="btn-prev" id="btn-prev" onclick="prevStep()">Back</button>
+    <button class="btn-next" id="btn-next" onclick="nextStep()">Continue</button>
+  </div>
+</div>
+
+<script src="js/shared.js"></script>
+<script src="js/intake.js"></script>
+</body>
+</html>

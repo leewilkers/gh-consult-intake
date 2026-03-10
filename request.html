@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request a Consultation &mdash; Ethics Consultation Service</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav-bar">
+  <div class="nav-brand">
+    <div class="brand-mark">EC</div>
+    Ethics Consultation Service
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="request.html">Request</a></li>
+    <li><a href="review.html">Review</a></li>
+    <li><a href="intake.html">Intake</a></li>
+  </ul>
+</nav>
+
+<!-- Header -->
+<section class="section-sm" style="background: var(--navy-wash); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h1 style="font-size: 1.75rem; margin-bottom: 0.25rem;">Request a Consultation</h1>
+        <p class="text-muted">Describe your situation as you'd explain it to a colleague.</p>
+      </div>
+      <div class="no-print" style="display: flex; gap: 0.5rem;">
+        <button class="btn btn-outline btn-sm" id="btn-example">See Example</button>
+        <button class="btn btn-ghost btn-sm" id="btn-clear" style="display:none;">Clear</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Form -->
+<section class="section" style="padding-top: 2rem;">
+  <div class="container" style="max-width: 740px;">
+
+    <!-- Section 1: Your Situation -->
+    <div class="form-section">
+      <h3 class="form-section-title">Your Situation</h3>
+      <p class="form-section-desc">What's going on? No formal language needed.</p>
+
+      <div class="field-group">
+        <label for="req-situation">What's your question or situation?</label>
+        <textarea id="req-situation" rows="4" placeholder="Describe it as you'd explain it to a colleague over coffee..."></textarea>
+        <p class="hint">The more context you provide, the better we can prepare before our first conversation.</p>
+      </div>
+
+      <div class="field-group">
+        <label for="req-why-now">Why is this coming up now?</label>
+        <textarea id="req-why-now" rows="2" placeholder="Is there a deadline, an upcoming decision, or a recent development?"></textarea>
+      </div>
+    </div>
+
+    <!-- Section 2: Who's Involved -->
+    <div class="form-section">
+      <h3 class="form-section-title">Who's Involved</h3>
+      <p class="form-section-desc">Help us understand who has a stake in this.</p>
+
+      <div class="field-row mb-2">
+        <div class="field-group">
+          <label for="req-name">Your name &amp; role</label>
+          <input type="text" id="req-name" placeholder="e.g., Jane Doe, Co-PI">
+        </div>
+        <div class="field-group">
+          <label for="req-email">Your email</label>
+          <input type="email" id="req-email" placeholder="email@organization.org">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="req-org">Organization / program</label>
+        <input type="text" id="req-org" placeholder="e.g., Global NTD Alliance">
+      </div>
+
+      <div class="field-group">
+        <label for="req-people">Other key people involved</label>
+        <textarea id="req-people" rows="2" placeholder="Co-investigators, team leads, funders, external partners..."></textarea>
+      </div>
+
+      <div class="field-group">
+        <label for="req-affected">Is anyone affected who isn't currently involved?</label>
+        <textarea id="req-affected" rows="2" placeholder="Community members, junior staff, partner organizations..."></textarea>
+        <p class="hint">People whose interests are at stake even if they aren't part of the conversation yet.</p>
+      </div>
+    </div>
+
+    <!-- Section 3: What Do You Need? -->
+    <div class="form-section">
+      <h3 class="form-section-title">What Do You Need?</h3>
+      <p class="form-section-desc">Select the type of engagement that fits best. Not sure? We'll help you decide.</p>
+
+      <div class="card-grid-4 mb-3" id="engagement-cards">
+        <div class="card selectable" data-engagement="quick" onclick="selectEngagement(this)">
+          <div class="card-icon card-icon-amber" style="width:32px;height:32px;font-size:1rem;margin-bottom:0.6rem;">&#9656;</div>
+          <div class="card-title" style="font-size:0.95rem;">Quick Guidance</div>
+          <div class="card-desc" style="font-size:0.8rem;">Brief written response. You have a clear question.</div>
+        </div>
+        <div class="card selectable" data-engagement="full" onclick="selectEngagement(this)">
+          <div class="card-icon card-icon-navy" style="width:32px;height:32px;font-size:1rem;margin-bottom:0.6rem;">&#9670;</div>
+          <div class="card-title" style="font-size:0.95rem;">Full Consultation</div>
+          <div class="card-desc" style="font-size:0.8rem;">Multi-phase process. Complex situation, multiple stakeholders.</div>
+        </div>
+        <div class="card selectable" data-engagement="meeting" onclick="selectEngagement(this)">
+          <div class="card-icon card-icon-navy" style="width:32px;height:32px;font-size:1rem;margin-bottom:0.6rem;">&#9673;</div>
+          <div class="card-title" style="font-size:0.95rem;">Meeting Facilitation</div>
+          <div class="card-desc" style="font-size:0.8rem;">Structured discussion support with your team.</div>
+        </div>
+        <div class="card selectable" data-engagement="review" onclick="selectEngagement(this)">
+          <div class="card-icon card-icon-amber" style="width:32px;height:32px;font-size:1rem;margin-bottom:0.6rem;">&#9998;</div>
+          <div class="card-title" style="font-size:0.95rem;">Document Review</div>
+          <div class="card-desc" style="font-size:0.8rem;">Ethical review of an existing draft or policy.</div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="req-documents">Any relevant documents you'd like us to review?</label>
+        <input type="text" id="req-documents" placeholder="Describe or list them &mdash; you can share files after submission">
+      </div>
+
+      <div class="field-group">
+        <label for="req-policies">Are you aware of any existing policies or guidance on this topic?</label>
+        <input type="text" id="req-policies" placeholder="e.g., ICMJE guidelines, institutional policies, funder requirements...">
+      </div>
+    </div>
+
+    <!-- Section 4: Timeline -->
+    <div class="form-section">
+      <h3 class="form-section-title">Timeline</h3>
+      <p class="form-section-desc">Help us prioritize.</p>
+
+      <div style="display: flex; gap: 0.75rem; margin-bottom: 1.25rem; flex-wrap: wrap;" id="urgency-cards">
+        <div class="card selectable" data-urgency="urgent" onclick="selectUrgency(this)" style="flex: 1; min-width: 160px; text-align: center;">
+          <div style="font-size: 1.2rem; margin-bottom: 0.3rem; color: var(--error);">&#9888;</div>
+          <div class="card-title" style="font-size: 0.95rem;">Urgent</div>
+          <div class="card-desc" style="font-size: 0.78rem;">Decision needed within days</div>
+        </div>
+        <div class="card selectable" data-urgency="standard" onclick="selectUrgency(this)" style="flex: 1; min-width: 160px; text-align: center;">
+          <div style="font-size: 1.2rem; margin-bottom: 0.3rem; color: var(--amber);">&#9679;</div>
+          <div class="card-title" style="font-size: 0.95rem;">Standard</div>
+          <div class="card-desc" style="font-size: 0.78rem;">Within a few weeks</div>
+        </div>
+        <div class="card selectable" data-urgency="flexible" onclick="selectUrgency(this)" style="flex: 1; min-width: 160px; text-align: center;">
+          <div style="font-size: 1.2rem; margin-bottom: 0.3rem; color: var(--success);">&#9711;</div>
+          <div class="card-title" style="font-size: 0.95rem;">Flexible</div>
+          <div class="card-desc" style="font-size: 0.78rem;">No hard deadline</div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="req-deadline">When do you need to make a decision?</label>
+        <input type="date" id="req-deadline">
+        <p class="hint">Approximate is fine. This helps us plan, not lock you in.</p>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+      <a href="index.html" class="btn btn-ghost">&larr; Back</a>
+      <button class="btn btn-primary btn-lg" id="btn-submit" onclick="submitRequest()">Submit Request &rarr;</button>
+    </div>
+
+    <!-- Validation message -->
+    <div id="validation-msg" style="display: none; margin-top: 1rem; padding: 0.75rem 1rem; background: var(--error-bg); border: 1px solid #fecaca; border-radius: var(--radius); font-size: 0.875rem; color: var(--error);"></div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div>Ethics Consultation Service</div>
+      <div>Demo</div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/shared.js"></script>
+<script src="js/request.js"></script>
+</body>
+</html>

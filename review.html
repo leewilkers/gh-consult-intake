@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preliminary Review &mdash; Ethics Consultation Service</title>
+<link rel="stylesheet" href="css/styles.css">
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav-bar">
+  <div class="nav-brand">
+    <div class="brand-mark">EC</div>
+    Ethics Consultation Service
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="request.html">Request</a></li>
+    <li><a href="review.html">Review</a></li>
+    <li><a href="intake.html">Intake</a></li>
+  </ul>
+</nav>
+
+<!-- Header -->
+<section class="section-sm" style="background: var(--navy-wash); border-bottom: 1px solid var(--border);">
+  <div class="container-wide">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.25rem;">
+          <h1 style="font-size: 1.75rem;">Preliminary Context Scan</h1>
+          <span class="badge badge-navy" id="badge-status">Scanning...</span>
+        </div>
+        <p class="text-muted">Preliminary materials gathered to prepare your consultant. Not a determination.</p>
+      </div>
+      <div class="no-print" style="display: flex; gap: 0.5rem; align-items: center;">
+        <span class="text-xs text-muted" id="ref-number"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- No Data State -->
+<section class="section" id="no-data" style="display: none; text-align: center;">
+  <div class="container">
+    <h2 style="color: var(--ink-muted); margin-bottom: 1rem;">No request data found</h2>
+    <p class="text-muted mb-3">Submit a consultation request first, or load the example.</p>
+    <a href="request.html" class="btn btn-primary">Go to Request Form</a>
+  </div>
+</section>
+
+<!-- Main Content -->
+<section class="section" id="main-content" style="padding-top: 2rem; display: none;">
+  <div class="container-wide">
+    <div class="two-col">
+
+      <!-- LEFT COLUMN: Request + Surfaced Context -->
+      <div>
+
+        <!-- Request Summary -->
+        <div class="summary-block mb-3" id="request-summary">
+          <h3>Your Request</h3>
+          <div id="request-summary-content"></div>
+        </div>
+
+        <!-- Scan Sections (staggered reveal) -->
+
+        <!-- Concepts & Issues Flagged -->
+        <div class="scan-section mb-3" id="scan-concepts">
+          <div class="scan-loading" id="loading-concepts">
+            <div class="typing-dots"><span></span><span></span><span></span></div>
+            <span>Analyzing request for key concepts...</span>
+          </div>
+          <div class="summary-block" id="content-concepts" style="display: none;">
+            <h3>Key Concepts &amp; Issues Flagged</h3>
+            <p class="text-xs text-muted mb-2">Terms and themes detected in your request that may need attention.</p>
+            <div id="concepts-list"></div>
+          </div>
+        </div>
+
+        <!-- Drive / Prior Work -->
+        <div class="scan-section mb-3" id="scan-drive">
+          <div class="scan-loading" id="loading-drive">
+            <div class="typing-dots"><span></span><span></span><span></span></div>
+            <span>Searching prior consultations &amp; internal documents...</span>
+          </div>
+          <div class="summary-block" id="content-drive" style="display: none;">
+            <h3>Related Internal Documents</h3>
+            <p class="text-xs text-muted mb-2">Prior consultations, memos, and policies that may be relevant. Sourced from organizational files.</p>
+            <div id="drive-list"></div>
+          </div>
+        </div>
+
+        <!-- Frameworks & Regulations -->
+        <div class="scan-section mb-3" id="scan-frameworks">
+          <div class="scan-loading" id="loading-frameworks">
+            <div class="typing-dots"><span></span><span></span><span></span></div>
+            <span>Identifying applicable frameworks &amp; regulations...</span>
+          </div>
+          <div class="summary-block" id="content-frameworks" style="display: none;">
+            <h3>Applicable Frameworks &amp; Standards</h3>
+            <p class="text-xs text-muted mb-2">Ethical guidelines, professional standards, and regulatory frameworks flagged as potentially relevant.</p>
+            <div id="frameworks-list"></div>
+          </div>
+        </div>
+
+        <!-- Recent Literature -->
+        <div class="scan-section mb-3" id="scan-literature">
+          <div class="scan-loading" id="loading-literature">
+            <div class="typing-dots"><span></span><span></span><span></span></div>
+            <span>Searching recent publications...</span>
+          </div>
+          <div class="summary-block" id="content-literature" style="display: none;">
+            <h3>Recent Relevant Publications</h3>
+            <p class="text-xs text-muted mb-2">Papers and reports surfaced from academic databases. Titles and sources are real; relevance is preliminary.</p>
+            <div id="literature-list"></div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="scan-section no-print" id="scan-actions" style="margin-top: 2rem;">
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button class="btn btn-secondary" onclick="downloadReport()">Download Report (.xlsx)</button>
+            <button class="btn btn-outline" onclick="printPage()">Print Summary</button>
+            <a href="intake.html" class="btn btn-primary">Open Consultant Intake &rarr;</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: Triage Sidebar -->
+      <div class="sidebar" id="sidebar-col">
+
+        <div class="sidebar-card" id="sidebar-triage" style="display: none;">
+          <h4>Suggested Engagement</h4>
+          <div id="triage-engagement"></div>
+        </div>
+
+        <div class="sidebar-card" id="sidebar-complexity" style="display: none;">
+          <h4>Complexity Indicators</h4>
+          <div id="triage-complexity"></div>
+        </div>
+
+        <div class="sidebar-card" id="sidebar-timeline" style="display: none;">
+          <h4>Timeline</h4>
+          <div id="triage-timeline"></div>
+        </div>
+
+        <div class="sidebar-card" id="sidebar-next" style="display: none;">
+          <h4>Status</h4>
+          <div id="triage-next"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div>Ethics Consultation Service</div>
+      <div>Demo</div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/shared.js"></script>
+<script src="js/review.js"></script>
+</body>
+</html>
