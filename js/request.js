@@ -75,15 +75,15 @@ function submitRequest() {
 
 /* ── Example Data (Jane & John Doe) ────────── */
 function loadExample() {
-  document.getElementById('req-situation').value = 'We are a multi-country NTD research consortium (5 countries, 12+ planned publications) and need to develop a consortium-wide authorship policy. The core tension is between alphabetical ordering (the standard in our field) and contribution-based credit. Our HIC-based co-PIs did most of the analytical work, but consortium norms prioritize LMIC first/last authorship. Country PIs are peers and we have a very difficult time prioritizing one over another. Modelers contributed significantly but their work spans all country papers. We need a policy framework before papers start getting written.';
+  document.getElementById('req-situation').value = 'We are a multi-country artisanal cheese research consortium (5 countries, 12+ planned publications) and need to develop a consortium-wide authorship policy. The core tension is between alphabetical ordering (the standard in our field) and contribution-based credit. Our Alpine-based co-PIs did most of the analytical work, but consortium norms prioritize LMIC first/last authorship. Country cheesemaking leads are peers and we have a very difficult time prioritizing one over another. The cave-aging modelers contributed significantly but their work spans all country papers. We need a policy framework before papers start getting written.';
 
   document.getElementById('req-why-now').value = 'Publication planning is starting for the first wave of papers. Several country teams are drafting manuscripts now. Without a policy, authorship disputes will be handled ad hoc, which risks damaging relationships across the consortium. Our funder (Wellcome Trust) has equity requirements we need to address.';
 
-  document.getElementById('req-name').value = 'Jane Doe, Co-PI, NTD Consortium Project';
-  document.getElementById('req-email').value = 'j.doe@globalntdalliance.org';
-  document.getElementById('req-org').value = 'Global NTD Alliance';
-  document.getElementById('req-people').value = 'John Doe (Co-PI, lead modeler), 5 country PIs, ~12 named co-investigators, Dr. A. Whitfield (ethics advisor), country data collection teams, Wellcome Trust program officer';
-  document.getElementById('req-affected').value = 'Junior researchers and data collectors across 5 country teams who contributed significantly but may not meet traditional authorship criteria. Community health workers involved in data collection. Future consortium members who will inherit whatever policy we set.';
+  document.getElementById('req-name').value = 'Jane Doe, Co-PI, Cheese Consortium Project';
+  document.getElementById('req-email').value = 'j.doe@globalcheesealliance.org';
+  document.getElementById('req-org').value = 'Global Artisanal Cheese Alliance';
+  document.getElementById('req-people').value = 'John Doe (Co-PI, lead cave-aging modeler), 5 country cheesemaking leads, ~12 named co-investigators, Dr. A. Whitfield (ethics advisor), country milk collection teams, Wellcome Trust program officer';
+  document.getElementById('req-affected').value = 'Junior researchers and milk collectors across 5 country teams who contributed significantly but may not meet traditional authorship criteria. Community dairy workers involved in data collection. Future consortium members who will inherit whatever policy we set.';
 
   // Select Full Consultation
   var fullCard = document.querySelector('[data-engagement="full"]');
